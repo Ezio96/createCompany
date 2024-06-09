@@ -15,7 +15,7 @@
             padding: 5px;
         }
         .short-input {
-            width: 200px;
+            width: 100px;
         }
         .medium-input {
             width: 300px;
@@ -149,12 +149,18 @@
             });
 
             const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
             const margin = 40;
             const lineHeight = 14;
+            const maxLineWidth = pageWidth - 2 * margin;
             let y = margin;
 
             function addText(text, addY = true) {
-                const splitText = doc.splitTextToSize(text, pageWidth - 2 * margin);
+                const splitText = doc.splitTextToSize(text, maxLineWidth);
+                if (y + splitText.length * lineHeight > pageHeight - margin) {
+                    doc.addPage();
+                    y = margin;
+                }
                 doc.text(splitText, margin, y);
                 if (addY) y += splitText.length * lineHeight;
             }
