@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="graphContainer" style="width: 50%; height: 50%;">
+        <h1 style="font-size: 3rem; text-transform: uppercase;">Graphique</h1>
+        <canvas id="randomChart"></canvas>
+    </div>
+
+    <script>
+        // Générer des données aléatoires avec des couleurs
+        const randomData = Array.from({ length: 50 }, () => ({
+            x: Math.random() * 10,
+            y: Math.random() * 10,
+            color: `rgba(${255 - Math.floor(Math.abs(10 - Math.random() * 20) * 25.5)}, 0, ${Math.floor(Math.abs(10 - Math.random() * 20) * 25.5)}, 1)` // Variation de couleur du rouge au bleu en fonction de l'abscisse
+        }));
+
+        // Créer le graphique avec Chart.js
+        const ctx = document.getElementById('randomChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Points aléatoires',
+                    data: randomData,
+                    backgroundColor: randomData.map(data => data.color), // Couleur des points dynamique
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    pointStyle: 'circle', // Forme des points
+                    pointRadius: 10 // Taille des points
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        min: 0,
+                        max: 10
+                    },
+                    y: {
+                        type: 'linear',
+                        min: 0,
+                        max: 10
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 48 // Taille de police de la légende
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
