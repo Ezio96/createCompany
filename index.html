@@ -4,30 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acte de Constitution</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Acte de Constitution d'une Société Belge</h1>
     <form id="constitutionForm">
-        <label for="denomination">Dénomination sociale:</label>
-        <input type="text" id="denomination" name="denomination"><br><br>
+        <p>
+            <strong>1. Dénomination sociale</strong><br>
+            La société est constituée sous la dénomination sociale : 
+            <input type="text" id="denomination" name="denomination" class="form-control">
+        </p>
 
-        <label for="siege">Siège social:</label>
-        <input type="text" id="siege" name="siege"><br><br>
+        <p>
+            <strong>2. Forme juridique</strong><br>
+            La société prend la forme juridique d'une société privée à responsabilité limitée (SPRL).
+        </p>
 
-        <label for="objet">Objet social:</label>
-        <input type="text" id="objet" name="objet"><br><br>
+        <p>
+            <strong>3. Siège social</strong><br>
+            Le siège social de la société est établi à 
+            <input type="text" id="siege" name="siege" class="form-control">
+        </p>
 
-        <label for="capital">Capital social:</label>
-        <input type="text" id="capital" name="capital"><br><br>
+        <p>
+            <strong>4. Objet social</strong><br>
+            La société a pour objet : 
+            <textarea id="objet" name="objet" class="form-control"></textarea>
+        </p>
 
-        <label for="fondateurs">Noms des fondateurs et leurs apports (séparés par des virgules):</label>
-        <input type="text" id="fondateurs" name="fondateurs"><br><br>
+        <p>
+            <strong>5. Durée</strong><br>
+            La société est constituée pour une durée indéterminée.
+        </p>
 
-        <label for="gerant">Nom du gérant:</label>
-        <input type="text" id="gerant" name="gerant"><br><br>
+        <p>
+            <strong>6. Capital social</strong><br>
+            Le capital social de la société est fixé à 
+            <input type="text" id="capital" name="capital" class="form-control"> EUR, divisé en 
+            <input type="text" id="parts" name="parts" class="form-control"> parts sociales de 
+            <input type="text" id="partValue" name="partValue" class="form-control"> EUR chacune, entièrement souscrites et libérées par les fondateurs.
+        </p>
 
-        <label for="exercice">Exercice social (dates):</label>
-        <input type="text" id="exercice" name="exercice"><br><br>
+        <p>
+            <strong>7. Apports</strong><br>
+            Les fondateurs apportent à la société le montant suivant : 
+            <textarea id="fondateurs" name="fondateurs" class="form-control"></textarea>
+        </p>
+
+        <p>
+            <strong>8. Administration</strong><br>
+            La société est administrée par un gérant (ou plusieurs gérants). Le(s) gérant(s) de la société est/sont : 
+            <input type="text" id="gerant" name="gerant" class="form-control">
+        </p>
+
+        <p>
+            <strong>9. Assemblées générales</strong><br>
+            Les assemblées générales des associés se tiendront au siège social de la société ou à tout autre endroit indiqué dans la convocation.
+        </p>
+
+        <p>
+            <strong>10. Exercice social</strong><br>
+            L'exercice social commence le 
+            <input type="text" id="exerciceStart" name="exerciceStart" class="form-control"> et se termine le 
+            <input type="text" id="exerciceEnd" name="exerciceEnd" class="form-control"> de chaque année. Le premier exercice commencera le jour de la constitution de la société et se terminera le 
+            <input type="text" id="firstExerciceEnd" name="firstExerciceEnd" class="form-control">
+        </p>
+
+        <p>
+            <strong>11. Bénéfices</strong><br>
+            Les bénéfices nets de la société, après déduction des frais généraux et des autres charges, ainsi que des amortissements et provisions jugés nécessaires, seront répartis entre les associés proportionnellement à leurs parts sociales.
+        </p>
+
+        <p>
+            <strong>12. Dissolution et liquidation</strong><br>
+            En cas de dissolution anticipée de la société, l'assemblée générale désignera un ou plusieurs liquidateurs chargés des opérations de liquidation.
+        </p>
+
+        <p>
+            <strong>13. Frais</strong><br>
+            Les frais, droits et honoraires résultant de la présente constitution sont estimés à 
+            <input type="text" id="frais" name="frais" class="form-control"> EUR et seront à charge de la société.
+        </p>
+
+        <p>
+            <strong>14. Déclarations</strong><br>
+            Les fondateurs déclarent que les apports en numéraire sont disponibles pour la société dès la signature des présents.
+        </p>
+
+        <p>
+            <strong>15. Formalités</strong><br>
+            Le gérant est chargé d'accomplir toutes les formalités légales de dépôt et de publication prescrites par la loi.
+        </p>
+
+        <p>
+            Fait à 
+            <input type="text" id="lieu" name="lieu" class="form-control">, le 
+            <input type="text" id="date" name="date" class="form-control">.
+        </p>
+
+        <p>
+            En 
+            <input type="text" id="exemplaires" name="exemplaires" class="form-control"> exemplaires originaux.
+        </p>
+
+        <p>
+            <strong>Signatures des fondateurs :</strong><br>
+            <textarea id="signaturesFondateurs" name="signaturesFondateurs" class="form-control"></textarea>
+        </p>
+
+        <p>
+            <strong>Signature du notaire :</strong><br>
+            <textarea id="signatureNotaire" name="signatureNotaire" class="form-control"></textarea>
+        </p>
 
         <button type="button" onclick="generatePDF()">Enregistrer en PDF</button>
     </form>
@@ -41,20 +139,42 @@
             const siege = document.getElementById('siege').value;
             const objet = document.getElementById('objet').value;
             const capital = document.getElementById('capital').value;
+            const parts = document.getElementById('parts').value;
+            const partValue = document.getElementById('partValue').value;
             const fondateurs = document.getElementById('fondateurs').value;
             const gerant = document.getElementById('gerant').value;
-            const exercice = document.getElementById('exercice').value;
+            const exerciceStart = document.getElementById('exerciceStart').value;
+            const exerciceEnd = document.getElementById('exerciceEnd').value;
+            const firstExerciceEnd = document.getElementById('firstExerciceEnd').value;
+            const frais = document.getElementById('frais').value;
+            const lieu = document.getElementById('lieu').value;
+            const date = document.getElementById('date').value;
+            const exemplaires = document.getElementById('exemplaires').value;
+            const signaturesFondateurs = document.getElementById('signaturesFondateurs').value;
+            const signatureNotaire = document.getElementById('signatureNotaire').value;
 
             const doc = new jsPDF();
 
             doc.text("ACTE DE CONSTITUTION D'UNE SOCIÉTÉ PRIVÉE À RESPONSABILITÉ LIMITÉE (SPRL)", 10, 10);
-            doc.text(`Dénomination sociale: ${denomination}`, 10, 20);
-            doc.text(`Siège social: ${siege}`, 10, 30);
-            doc.text(`Objet social: ${objet}`, 10, 40);
-            doc.text(`Capital social: ${capital}`, 10, 50);
-            doc.text(`Fondateurs et leurs apports: ${fondateurs}`, 10, 60);
-            doc.text(`Nom du gérant: ${gerant}`, 10, 70);
-            doc.text(`Exercice social: ${exercice}`, 10, 80);
+            doc.text(`1. Dénomination sociale\nLa société est constituée sous la dénomination sociale : ${denomination}`, 10, 20);
+            doc.text(`2. Forme juridique\nLa société prend la forme juridique d'une société privée à responsabilité limitée (SPRL).`, 10, 40);
+            doc.text(`3. Siège social\nLe siège social de la société est établi à ${siege}`, 10, 60);
+            doc.text(`4. Objet social\nLa société a pour objet : ${objet}`, 10, 80);
+            doc.text(`5. Durée\nLa société est constituée pour une durée indéterminée.`, 10, 100);
+            doc.text(`6. Capital social\nLe capital social de la société est fixé à ${capital} EUR, divisé en ${parts} parts sociales de ${partValue} EUR chacune, entièrement souscrites et libérées par les fondateurs.`, 10, 120);
+            doc.text(`7. Apports\nLes fondateurs apportent à la société le montant suivant : ${fondateurs}`, 10, 140);
+            doc.text(`8. Administration\nLa société est administrée par un gérant (ou plusieurs gérants). Le(s) gérant(s) de la société est/sont : ${gerant}`, 10, 160);
+            doc.text(`9. Assemblées générales\nLes assemblées générales des associés se tiendront au siège social de la société ou à tout autre endroit indiqué dans la convocation.`, 10, 180);
+            doc.text(`10. Exercice social\nL'exercice social commence le ${exerciceStart} et se termine le ${exerciceEnd} de chaque année. Le premier exercice commencera le jour de la constitution de la société et se terminera le ${firstExerciceEnd}.`, 10, 200);
+            doc.text(`11. Bénéfices\nLes bénéfices nets de la société, après déduction des frais généraux et des autres charges, ainsi que des amortissements et provisions jugés nécessaires, seront répartis entre les associés proportionnellement à leurs parts sociales.`, 10, 220);
+            doc.text(`12. Dissolution et liquidation\nEn cas de dissolution anticipée de la société, l'assemblée générale désignera un ou plusieurs liquidateurs chargés des opérations de liquidation.`, 10, 240);
+            doc.text(`13. Frais\nLes frais, droits et honoraires résultant de la présente constitution sont estimés à ${frais} EUR et seront à charge de la société.`, 10, 260);
+            doc.text(`14. Déclarations\nLes fondateurs déclarent que les apports en numéraire sont disponibles pour la société dès la signature des présents.`, 10, 280);
+            doc.text(`15. Formalités\nLe gérant est chargé d'accomplir toutes les formalités légales de dépôt et de publication prescrites par la loi.`, 10, 300);
+            doc.text(`Fait à ${lieu}, le ${date}.`, 10, 320);
+            doc.text(`En ${exemplaires} exemplaires originaux.`, 10, 340);
+            doc.text(`Signatures des fondateurs : ${signaturesFondateurs}`, 10, 360);
+            doc.text(`Signature du notaire : ${signatureNotaire}`, 10, 380);
 
             doc.save('acte_de_constitution.pdf');
         }
