@@ -135,8 +135,6 @@
             <strong>Signature du notaire :</strong><br>
             <textarea id="signatureNotaire" name="signatureNotaire" class="form-control long-input"></textarea>
         </p>
-
-        <button type="button" onclick="generatePDF()">Enregistrer en PDF</button>
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -155,14 +153,16 @@
             const maxLineWidth = pageWidth - 2 * margin;
             let y = margin;
 
-            function addText(text, addY = true) {
-                const splitText = doc.splitTextToSize(text, maxLineWidth);
-                if (y + splitText.length * lineHeight > pageHeight - margin) {
-                    doc.addPage();
-                    y = margin;
+            function addText(text) {
+                const lines = doc.splitTextToSize(text, maxLineWidth);
+                for (let i = 0; i < lines.length; i++) {
+                    if (y + lineHeight > pageHeight - margin) {
+                        doc.addPage();
+                        y = margin;
+                    }
+                    doc.text(lines[i], margin, y);
+                    y += lineHeight;
                 }
-                doc.text(splitText, margin, y);
-                if (addY) y += splitText.length * lineHeight;
             }
 
             const formData = {
@@ -185,7 +185,7 @@
                 signatureNotaire: document.getElementById('signatureNotaire').value
             };
 
-            addText("ACTE DE CONSTITUTION D'UNE SOCIÉTÉ PRIVÉE À RESPONSABILITÉ LIMITÉE (SPRL)", false);
+            addText("ACTE DE CONSTITUTION D'UNE SOCIÉTÉ PRIVÉE À RESPONSABILITÉ LIMITÉE (SPRL)");
             y += lineHeight * 2;
             
             addText(`1. Dénomination sociale\nLa société est constituée sous la dénomination sociale : ${formData.denomination}`);
