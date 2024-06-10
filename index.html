@@ -135,6 +135,8 @@
             <strong>Signature du notaire :</strong><br>
             <textarea id="signatureNotaire" name="signatureNotaire" class="form-control long-input"></textarea>
         </p>
+
+        <button type="button" onclick="generatePDF()">Enregistrer en PDF</button>
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -187,25 +189,43 @@
 
             addText("ACTE DE CONSTITUTION D'UNE SOCIÉTÉ PRIVÉE À RESPONSABILITÉ LIMITÉE (SPRL)");
             y += lineHeight * 2;
-            
+
             addText(`1. Dénomination sociale\nLa société est constituée sous la dénomination sociale : ${formData.denomination}`);
+            y += lineHeight;
             addText(`2. Forme juridique\nLa société prend la forme juridique d'une société privée à responsabilité limitée (SPRL).`);
+            y += lineHeight;
             addText(`3. Siège social\nLe siège social de la société est établi à ${formData.siege}`);
+            y += lineHeight;
             addText(`4. Objet social\nLa société a pour objet : ${formData.objet}`);
+            y += lineHeight;
             addText(`5. Durée\nLa société est constituée pour une durée indéterminée.`);
+            y += lineHeight;
             addText(`6. Capital social\nLe capital social de la société est fixé à ${formData.capital} EUR, divisé en ${formData.parts} parts sociales de ${formData.partValue} EUR chacune, entièrement souscrites et libérées par les fondateurs.`);
+            y += lineHeight;
             addText(`7. Apports\nLes fondateurs apportent à la société le montant suivant : ${formData.fondateurs}`);
+            y += lineHeight;
             addText(`8. Administration\nLa société est administrée par un gérant (ou plusieurs gérants). Le(s) gérant(s) de la société est/sont : ${formData.gerant}`);
+            y += lineHeight;
             addText(`9. Assemblées générales\nLes assemblées générales des associés se tiendront au siège social de la société ou à tout autre endroit indiqué dans la convocation.`);
+            y += lineHeight;
             addText(`10. Exercice social\nL'exercice social commence le ${formData.exerciceStart} et se termine le ${formData.exerciceEnd} de chaque année. Le premier exercice commencera le jour de la constitution de la société et se terminera le ${formData.firstExerciceEnd}.`);
+            y += lineHeight;
             addText(`11. Bénéfices\nLes bénéfices nets de la société, après déduction des frais généraux et des autres charges, ainsi que des amortissements et provisions jugés nécessaires, seront répartis entre les associés proportionnellement à leurs parts sociales.`);
+            y += lineHeight;
             addText(`12. Dissolution et liquidation\nEn cas de dissolution anticipée de la société, l'assemblée générale désignera un ou plusieurs liquidateurs chargés des opérations de liquidation.`);
+            y += lineHeight;
             addText(`13. Frais\nLes frais, droits et honoraires résultant de la présente constitution sont estimés à ${formData.frais} EUR et seront à charge de la société.`);
+            y += lineHeight;
             addText(`14. Déclarations\nLes fondateurs déclarent que les apports en numéraire sont disponibles pour la société dès la signature des présents.`);
+            y += lineHeight;
             addText(`15. Formalités\nLe gérant est chargé d'accomplir toutes les formalités légales de dépôt et de publication prescrites par la loi.`);
+            y += lineHeight;
             addText(`Fait à ${formData.lieu}, le ${formData.date}.`);
+            y += lineHeight;
             addText(`En ${formData.exemplaires} exemplaires originaux.`);
+            y += lineHeight;
             addText(`Signatures des fondateurs : ${formData.signaturesFondateurs}`);
+            y += lineHeight;
             addText(`Signature du notaire : ${formData.signatureNotaire}`);
 
             doc.save('acte_de_constitution.pdf');
